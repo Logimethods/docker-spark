@@ -16,17 +16,25 @@ sed s/HOSTNAME/$HOSTNAME/ /usr/local/hadoop/etc/hadoop/core-site.xml.template > 
 echo spark.yarn.jar hdfs:///spark/spark-assembly-1.6.1-hadoop2.6.0.jar > $SPARK_HOME/conf/spark-defaults.conf
 cp $SPARK_HOME/conf/metrics.properties.template $SPARK_HOME/conf/metrics.properties
 
-service sshd start
-$HADOOP_PREFIX/sbin/start-dfs.sh
-$HADOOP_PREFIX/sbin/start-yarn.sh
+#PJT: For convenience
+#export PATH="$PATH:${HADOOP_PREFIX}/bin/:${HADOOP_PREFIX}/sbin/"
 
+service ssh start
 
+if [[ ${CLUSTER_ROLE} == "master" ]]; then
+    # Format the namenode iff not already formatted.
+    if [[ ! -d /data/dfs/name/current ]]; then
+        echo 'Y' | ${HADOOP_PREFIX}/bin/hdfs namenode -format
+    fi
 
-CMD=${1:-"exit 0"}
-if [[ "$CMD" == "-d" ]];
-then
-	service sshd stop
-	/usr/sbin/sshd -D -d
-else
-	/bin/bash -c "$*"
+    /usr/local/hadoop/sbin/start-dfs.sh
+    /usr/local/hadoop/sbin/start-yarn.sh
+fi
+
+if [[ $1 == "-d" ]]; then
+  while true; do sleep 1000; done
+fi
+
+if [[ $1 == "-bash" ]]; then
+  /bin/bash
 fi
