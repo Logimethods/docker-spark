@@ -1,0 +1,44 @@
+version: '2'
+services:
+    master:
+        #build: ./imageBuildDir
+      image: paultomchik/hadoop-cluster
+      container_name: hadoop_master
+      environment:
+        - CLUSTER_ROLE=master
+      hostname: master
+      volumes:
+        - ./data/master-data/:/data/
+      links:
+        - slave1
+        - slave2
+      ports:
+          - "2222:22"
+          - "8030:8030"
+          - "8031:8031"
+          - "8032:8032" 
+          - "8033:8033"
+          - "8040:8040"
+          - "8042:8042"
+          - "8088:8088"
+          - "9000:9000"
+          - "49707:49707"
+          - "50020:50020"
+          - "50090:50090"
+          - "50070:50070"
+          - "50010:50010"
+          - "50075:50075"
+    slave1:
+        #build: ./imageBuildDir
+      image: paultomchik/hadoop-cluster
+      container_name: hadoop_slave1
+      hostname: slave1
+      volumes:
+        - ./data/slave1-data/:/data/
+    slave2:
+        #build: ./imageBuildDir
+      image: paultomchik/hadoop-cluster
+      container_name: hadoop_slave2
+      hostname: slave2
+      volumes:
+        - ./data/slave2-data/:/data/
