@@ -19,7 +19,7 @@ cp $SPARK_HOME/conf/metrics.properties.template $SPARK_HOME/conf/metrics.propert
 #PJT: For convenience
 #export PATH="$PATH:${HADOOP_PREFIX}/bin/:${HADOOP_PREFIX}/sbin/"
 
-service ssh start
+service sshd start
 
 if [[ ${CLUSTER_ROLE} == "master" ]]; then
     # Format the namenode iff not already formatted.
@@ -30,6 +30,8 @@ if [[ ${CLUSTER_ROLE} == "master" ]]; then
     /usr/local/hadoop/sbin/start-dfs.sh
     /usr/local/hadoop/sbin/start-yarn.sh
 fi
+
+sleep infinity
 
 if [[ $1 == "-d" ]]; then
   while true; do sleep 1000; done
