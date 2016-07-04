@@ -1,7 +1,8 @@
 version: '2'
 services:
     master:
-      image: logimethods/sequenceiq-spark:1.6.1
+      image: sequenceiq-spark
+#      image: logimethods/sequenceiq-spark:1.6.1
 #      image: paultomchik/hadoop-cluster
       container_name: hadoop_master
       environment:
@@ -33,7 +34,8 @@ services:
 #      command: bash -c 'echo "available" ; sleep infinity '
        
     slave1:
-      image: logimethods/sequenceiq-spark:1.6.1
+      image: sequenceiq-spark
+#      image: logimethods/sequenceiq-spark:1.6.1
 #      image: paultomchik/hadoop-cluster
       container_name: hadoop_slave1
       hostname: slave1
@@ -45,7 +47,8 @@ services:
 #      command: bash -c 'echo "available" ; sleep infinity '
        
     slave2:
-      image: logimethods/sequenceiq-spark:1.6.1
+      image: sequenceiq-spark
+#      image: logimethods/sequenceiq-spark:1.6.1
 #      image: paultomchik/hadoop-cluster
       container_name: hadoop_slave2
       hostname: slave2
